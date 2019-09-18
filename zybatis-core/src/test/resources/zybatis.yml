@@ -1,0 +1,5 @@
+dataSource:
+  url: jdbc:mysql://127.0.0.1:3306/localtest
+  username: root
+  password: abcd1234
+  driverClassName: com.mysql.jdbc.Driver
