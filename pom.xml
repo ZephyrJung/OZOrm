@@ -11,20 +11,28 @@
 
     <modules>
         <module>zybatis-core</module>
+        <module>zybatis-spring</module>
         <module>zybatis-spring-boot-starter</module>
     </modules>
 
     <properties>
-        <spring.version>2.1.6.RELEASE</spring.version>
+        <spring.boot.version>2.1.6.RELEASE</spring.boot.version>
     </properties>
 
     <dependencyManagement>
         <dependencies>
+            <!--local dependencies-->
             <dependency>
                 <groupId>org.zephyr.orm</groupId>
                 <artifactId>zybatis-core</artifactId>
                 <version>1.0-SNAPSHOT</version>
             </dependency>
+            <dependency>
+                <groupId>org.zephyr.orm</groupId>
+                <artifactId>zybatis-spring</artifactId>
+                <version>1.0-SNAPSHOT</version>
+            </dependency>
+            <!--third dependencies-->
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
@@ -77,18 +85,6 @@
                 <groupId>ch.qos.logback</groupId>
                 <artifactId>logback-classic</artifactId>
                 <version>1.1.7</version>
-            </dependency>
-
-            <!-- spring -->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring.version}</version>
-            </dependency>
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-autoconfigure</artifactId>
-                <version>${spring.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>

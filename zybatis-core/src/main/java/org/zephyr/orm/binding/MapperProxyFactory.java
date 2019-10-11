@@ -1,7 +1,7 @@
 package org.zephyr.orm.binding;
 
 import lombok.Data;
-import org.zephyr.orm.SqlSession;
+import org.zephyr.orm.session.SqlSession;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;

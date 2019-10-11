@@ -1,25 +1,13 @@
+package org.zephyr.orm.session.defaults;
 /**
- * Copyright 2009-2019 the original author or authors.
- * <p>
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * <p>
- * http://www.apache.org/licenses/LICENSE-2.0
- * <p>
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 发生了奇怪的现象，如果包名为impl，MapperProxyFactoryTest单元测试无法找到这个包，也无法找到这个类
+ * 换成了与mybatis一致的defaults，就可以……
  */
-package org.zephyr.orm.impl;
 
-import lombok.Data;
 import org.apache.commons.collections4.CollectionUtils;
-import org.zephyr.orm.SqlSession;
-import org.zephyr.orm.binding.MapperRegistry;
-import org.zephyr.orm.executor.MysqlExecutor;
+import org.zephyr.orm.executor.Executor;
+import org.zephyr.orm.model.Configuration;
+import org.zephyr.orm.session.SqlSession;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -34,20 +22,24 @@ import java.util.List;
  * <p>
  * 实现的时候暂时先忽略这里，当做不存在，只考虑用MysqlExecutor实现功能
  */
-@Data
-public class SqlSessionImpl implements SqlSession {
+public class DefaultSqlSession implements SqlSession {
+    private Configuration configuration;
+    private Executor executor;
 
-    private MapperRegistry mapperRegistry;
-    private MysqlExecutor mysqlExecutor;
+    public DefaultSqlSession(Configuration configuration, Executor executor) {
+        this.configuration = configuration;
+        this.executor = executor;
+    }
 
     public <T> T selectOne(Class<T> clazz, String statement, Object... parameters) {
         List<T> result = selectList(clazz, statement, parameters);
         return CollectionUtils.isNotEmpty(result) ? result.get(0) : null;
+
     }
 
     public <E> List<E> selectList(Class<E> clazz, String statement, Object... parameters) {
         try {
-            return mysqlExecutor.select(clazz, statement, parameters);
+            return executor.select(clazz, statement, parameters);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -55,7 +47,7 @@ public class SqlSessionImpl implements SqlSession {
 
     public int insert(String statement, Object... parameters) {
         try {
-            return mysqlExecutor.update(statement, parameters);
+            return executor.update(statement, parameters);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -63,7 +55,7 @@ public class SqlSessionImpl implements SqlSession {
 
     public int update(String statement, Object... parameters) {
         try {
-            return mysqlExecutor.update(statement, parameters);
+            return executor.update(statement, parameters);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -71,7 +63,7 @@ public class SqlSessionImpl implements SqlSession {
 
     public int delete(String statement, Object... parameters) {
         try {
-            return mysqlExecutor.update(statement, parameters);
+            return executor.update(statement, parameters);
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
@@ -79,6 +71,11 @@ public class SqlSessionImpl implements SqlSession {
 
     @Override
     public <T> T getMapper(Class<T> type) {
-        return mapperRegistry.getMapper(type);
+        return configuration.getMapper(type, this);
+    }
+
+    @Override
+    public Configuration getConfiguration() {
+        return this.configuration;
     }
 }

@@ -1,9 +1,7 @@
 package org.zephyr.orm.datasource;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.zephyr.orm.model.DataSource;
+import org.zephyr.orm.model.Zybatis;
 
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -18,26 +16,28 @@ import java.util.logging.Logger;
 /**
  * @author yu.zhang
  * @date 2019-09-06
- *
+ * <p>
  * 暂时按照最简单的形式实现
- *
+ * <p>
  * 最终结果应当是支持数据库连接池的，并且可配置大小，作为唯一实现，其他的数据源形式暂不考虑
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class MysqlDataSource implements javax.sql.DataSource {
     private static Map<String, Driver> registeredDrivers = new ConcurrentHashMap<>();
-    private DataSource dataSource;
+    private Zybatis zybatis;
+
+    public MysqlDataSource(Zybatis zybatis) {
+        this.zybatis = zybatis;
+    }
 
     public Connection getConnection() throws SQLException {
-        return doGetConnection(dataSource.toProperties());
+        return doGetConnection(zybatis.toProperties());
     }
 
     public Connection getConnection(String username, String password) throws SQLException {
-        dataSource.setUsername(username);
-        dataSource.setPassword(password);
-        return doGetConnection(dataSource.toProperties());
+        zybatis.setUsername(username);
+        zybatis.setPassword(password);
+        return doGetConnection(zybatis.toProperties());
     }
 
     public <T> T unwrap(Class<T> iface) throws SQLException {
@@ -71,13 +71,13 @@ public class MysqlDataSource implements javax.sql.DataSource {
 
     private Connection doGetConnection(Properties properties) throws SQLException {
         try {
-            Driver driver = registeredDrivers.get(dataSource.getDriverClassName());
+            Driver driver = registeredDrivers.get(zybatis.getDriverClassName());
             if (driver == null) {
-                driver = (Driver) Class.forName(dataSource.getDriverClassName()).getDeclaredConstructor().newInstance();
+                driver = (Driver) Class.forName(zybatis.getDriverClassName()).getDeclaredConstructor().newInstance();
                 DriverManager.registerDriver(driver);
-                registeredDrivers.put(dataSource.getDriverClassName(), driver);
+                registeredDrivers.put(zybatis.getDriverClassName(), driver);
             }
-            return DriverManager.getConnection(dataSource.getUrl(), properties);
+            return DriverManager.getConnection(zybatis.getUrl(), properties);
         } catch (Exception e) {
             throw new SQLException("Error setting driver on get connection: " + e);
         }

@@ -1,5 +1,6 @@
 package org.zephyr.orm.util
 
+import org.zephyr.orm.model.Zybatis
 import spock.lang.Specification
 
 /**
@@ -8,11 +9,12 @@ import spock.lang.Specification
 class PropertyUtilsTest extends Specification {
     def "BuildConfig"() {
         when:
-        def configuration = PropertyUtils.buildConfig(null)
+        def zybatis = PropertyUtils.buildConfig(null) as Zybatis
         then:
-        configuration.dataSource.username == "root"
-        configuration.dataSource.password == "abcd1234"
-        configuration.dataSource.url == "jdbc:mysql://127.0.0.1:3306/localtest"
-        configuration.dataSource.driverClassName == "com.mysql.jdbc.Driver"
+        println(zybatis)
+        zybatis.username == "root"
+        zybatis.password == "abcd1234"
+        zybatis.url == "jdbc:mysql://127.0.0.1:3306/localtest"
+        zybatis.driverClassName == "com.mysql.jdbc.Driver"
     }
 }

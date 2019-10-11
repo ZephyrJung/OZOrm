@@ -1,6 +1,7 @@
 package org.zephyr.orm.executor
 
 import org.zephyr.orm.datasource.MysqlDataSource
+import org.zephyr.orm.executor.impl.MysqlExecutor
 import org.zephyr.orm.test.po.OrderDataPO
 import org.zephyr.orm.util.PropertyUtils
 import spock.lang.Specification
@@ -13,7 +14,7 @@ class MysqlExecutorTest extends Specification {
         given:
         def configuration = PropertyUtils.buildConfig()
         def mysqlDataSource = new MysqlDataSource(
-                dataSource: configuration.getDataSource()
+                dataSource: configuration.getDataSourceConfig()
         )
         when:
         def ptmt = "select * from order_data"
@@ -33,7 +34,7 @@ class MysqlExecutorTest extends Specification {
         given:
         def configuration = PropertyUtils.buildConfig()
         def mysqlDataSource = new MysqlDataSource(
-                dataSource: configuration.getDataSource()
+                dataSource: configuration.getDataSourceConfig()
         )
         when:
         def ptmt = "insert into order_data(order_id,pin) values(?,?)"
@@ -49,7 +50,7 @@ class MysqlExecutorTest extends Specification {
         given:
         def configuration = PropertyUtils.buildConfig()
         def mysqlDataSource = new MysqlDataSource(
-                dataSource: configuration.getDataSource()
+                dataSource: configuration.getDataSourceConfig()
         )
         when:
         def ptmt = "update order_data set pin = ? where order_id = ?"
@@ -65,7 +66,7 @@ class MysqlExecutorTest extends Specification {
         given:
         def configuration = PropertyUtils.buildConfig()
         def mysqlDataSource = new MysqlDataSource(
-                dataSource: configuration.getDataSource()
+                dataSource: configuration.getDataSourceConfig()
         )
         when:
         def ptmt = "delete from order_data where order_id = ?"

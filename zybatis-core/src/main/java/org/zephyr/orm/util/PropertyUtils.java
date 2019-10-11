@@ -3,7 +3,7 @@ package org.zephyr.orm.util;
 import org.apache.commons.lang3.StringUtils;
 import org.yaml.snakeyaml.Yaml;
 import org.yaml.snakeyaml.constructor.Constructor;
-import org.zephyr.orm.model.Configuration;
+import org.zephyr.orm.model.Zybatis;
 
 import java.io.InputStream;
 
@@ -15,13 +15,14 @@ import java.io.InputStream;
 public class PropertyUtils {
     private static final String DEFAULT_CONFIG_NAME = "zybatis.yml";
 
-    public static Configuration buildConfig() {
+    public static Zybatis buildConfig() {
         return buildConfig(null);
     }
 
-    public static Configuration buildConfig(String path) {
-        Yaml yaml = new Yaml(new Constructor(Configuration.class));
+    public static Zybatis buildConfig(String path) {
+        Yaml yaml = new Yaml(new Constructor(Zybatis.class));
         InputStream inputStream = PropertyUtils.class.getClassLoader().getResourceAsStream(StringUtils.isNotBlank(path) ? path : DEFAULT_CONFIG_NAME);
         return yaml.load(inputStream);
     }
+
 }

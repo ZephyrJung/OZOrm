@@ -9,12 +9,12 @@ import java.sql.DriverManager
 /**
  * @author yu.zhang* @date 2019-09-06
  */
-class DataSourceTest extends Specification {
+class ZybatisTest extends Specification {
     def "testGetConnection"() {
         when:
         def configuration = PropertyUtils.buildConfig()
         def mysqlDataSource = new MysqlDataSource(
-                dataSource: configuration.getDataSource()
+                dataSource: configuration.getDataSourceConfig()
         )
         then:
         def connection = mysqlDataSource.getConnection()

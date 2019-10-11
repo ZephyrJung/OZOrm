@@ -13,7 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.zephyr.orm;
+package org.zephyr.orm.session;
+
+import org.zephyr.orm.model.Configuration;
 
 import java.util.List;
 
@@ -35,5 +37,12 @@ public interface SqlSession {
 
     int delete(String statement, Object... parameters);
 
+
     <T> T getMapper(Class<T> type);
+
+    /**
+     * 自身的配置
+     * @return
+     */
+    Configuration getConfiguration();
 }

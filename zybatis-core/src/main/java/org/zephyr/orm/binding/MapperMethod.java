@@ -1,6 +1,6 @@
 package org.zephyr.orm.binding;
 
-import org.zephyr.orm.SqlSession;
+import org.zephyr.orm.session.SqlSession;
 import org.zephyr.orm.annotation.Delete;
 import org.zephyr.orm.annotation.Insert;
 import org.zephyr.orm.annotation.Select;

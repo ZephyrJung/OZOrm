@@ -7,10 +7,10 @@ import java.util.Properties;
 /**
  * @author yu.zhang
  * @date 2019-09-06
- * properties的设置与com.dataSource.jdbc.NonRegisteringDriver中的配置有关
+ * properties的设置与com.zybatis.jdbc.NonRegisteringDriver中的配置有关
  */
 @Data
-public class DataSource {
+public class Zybatis {
     private String url;
     private String username;
     private String password;

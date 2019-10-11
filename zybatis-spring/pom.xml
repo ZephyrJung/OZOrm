@@ -35,23 +35,44 @@
         <version>1.0-SNAPSHOT</version>
     </parent>
 
-    <artifactId>zybatis-spring-boot-starter</artifactId>
+    <properties>
+        <spring.version>5.1.8.RELEASE</spring.version>
+    </properties>
+
+    <artifactId>zybatis-spring</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <dependencies>
+        <!-- Compile dependencies -->
         <dependency>
             <groupId>org.zephyr.orm</groupId>
             <artifactId>zybatis-core</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.zephyr.orm</groupId>
-            <artifactId>zybatis-spring</artifactId>
+            <groupId>org.spockframework</groupId>
+            <artifactId>spock-core</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-autoconfigure</artifactId>
-            <version>${spring.boot.version}</version>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
         </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-tx</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <!--        <dependency>
+                    <groupId>org.springframework.batch</groupId>
+                    <artifactId>spring-batch-infrastructure</artifactId>
+                    <scope>provided</scope>
+                </dependency>-->
     </dependencies>
 
 </project>

@@ -1,6 +1,6 @@
 package org.zephyr.orm.binding;
 
-import org.zephyr.orm.SqlSession;
+import org.zephyr.orm.session.SqlSession;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;

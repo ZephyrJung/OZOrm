@@ -1,11 +1,12 @@
-package org.zephyr.orm.executor;
+package org.zephyr.orm.executor.impl;
 
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
-import org.zephyr.orm.datasource.MysqlDataSource;
+import org.zephyr.orm.executor.Executor;
 import org.zephyr.orm.util.ReflectUtils;
 
+import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -19,11 +20,16 @@ import java.util.List;
  */
 @Data
 @Slf4j
-public class MysqlExecutor {
-    private MysqlDataSource mysqlDataSource;
+public class MysqlExecutor implements Executor {
+    // 依赖于接口而非具体的实现类
+    private DataSource dataSource;
+
+    public MysqlExecutor(DataSource dataSource) {
+        this.dataSource = dataSource;
+    }
 
     public <T> List<T> select(Class<T> clazz, String statement, Object... parameters) throws SQLException {
-        Connection connection = mysqlDataSource.getConnection();
+        Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
 
         if (parameters != null) {
@@ -46,7 +52,7 @@ public class MysqlExecutor {
     }
 
     public int update(String statement, Object... parameters) throws SQLException {
-        Connection connection = mysqlDataSource.getConnection();
+        Connection connection = dataSource.getConnection();
         PreparedStatement preparedStatement = connection.prepareStatement(statement);
         if (ArrayUtils.isNotEmpty(parameters)) {
             for (int i = 0; i < parameters.length; i++) {
